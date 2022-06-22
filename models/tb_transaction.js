@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class tb_transaction extends Model {
     /**
@@ -19,18 +17,20 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  tb_transaction.init({
-    fullname: DataTypes.STRING,
-    email: DataTypes.STRING,
-    phone: DataTypes.STRING,
-    address: DataTypes.STRING,
-    idUser: DataTypes.INTEGER,
-    totalPrice: DataTypes.INTEGER,
-    attachment: DataTypes.STRING,
-    status: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'tb_transaction',
-  });
+  tb_transaction.init(
+    {
+      fullname: DataTypes.STRING,
+      email: DataTypes.STRING,
+      phone: DataTypes.STRING,
+      address: DataTypes.STRING,
+      idUser: DataTypes.INTEGER,
+      totalPrice: DataTypes.INTEGER,
+      status: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "tb_transaction",
+    }
+  );
   return tb_transaction;
 };

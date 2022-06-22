@@ -70,8 +70,6 @@ exports.register = async (req, res) => {
 
     const user = {
       fullname: newUser.fullname,
-      password: newUser.password,
-      pass: console.log(newUser.password),
       token,
     };
 

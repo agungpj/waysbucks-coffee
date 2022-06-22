@@ -74,7 +74,7 @@ router.get("/orders/success/:id", getSuccessOrders);
 router.patch("/order/:id", auth, updateOrder);
 router.delete("/order/:id", auth, deleteOrder);
 
-router.post("/transaction", auth, uploadFile("attachment"), addTransaction);
+router.post("/transaction", auth, addTransaction);
 router.get("/transactions", getTransactions);
 router.get("/transaction/:id", getTransaction);
 router.patch("/transaction/:id", updateTransaction);

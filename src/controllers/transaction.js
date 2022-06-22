@@ -5,12 +5,6 @@ exports.addTransaction = async (req, res) => {
   try {
     const { data } = req.body;
 
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "waysbucks_media",
-      use_filename: true,
-      unique_filename: false,
-    });
-
     // code here
     let newTransaction = await tb_transaction.create({
       ...data,
@@ -20,7 +14,6 @@ exports.addTransaction = async (req, res) => {
       address: req.body.address,
       idUser: req.tb_user.id,
       totalPrice: req.body.totalPrice,
-      attachment: result.public_id,
       status: "Waiting Approve",
     });
 
@@ -69,14 +62,13 @@ exports.getTransactions = async (req, res) => {
       },
     });
 
-    data = JSON.parse(JSON.stringify(data));
+    // data = JSON.parse(JSON.stringify(data));
 
-    data = data.map((item) => {
-      return {
-        ...item,
-        attachment: process.env.FILE_PATH + item.attachment,
-      };
-    });
+    // data = data.map((item) => {
+    //   return {
+    //     ...item,
+    //   };
+    // });
 
     res.send({
       status: "Success on Getting Transactions",

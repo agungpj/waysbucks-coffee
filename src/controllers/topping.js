@@ -22,18 +22,12 @@ exports.addTopping = async (req, res) => {
 
     const { data } = req.body;
 
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "waysbucks_media",
-      use_filename: true,
-      unique_filename: false,
-    });
-
     // code here
     let newTopping = await tb_topping.create({
       ...data,
       title: req.body.title,
       price: req.body.price,
-      image: result.public_id,
+      image: req.file.filename,
       idUser: req.tb_user.id,
     });
 

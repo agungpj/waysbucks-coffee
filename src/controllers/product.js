@@ -21,18 +21,14 @@ exports.addProduct = async (req, res) => {
 
     const { data } = req.body;
 
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "waysbucks_media",
-      use_filename: true,
-      unique_filename: false,
-    });
-
     // code here
     let newProduct = await tb_product.create({
       ...data,
       title: req.body.title,
+      desc: req.body.desc,
       price: req.body.price,
-      image: result.public_id,
+      stock: req.body.stock,
+      image: req.file.filename,
       idUser: req.tb_user.id,
     });
 
@@ -138,7 +134,9 @@ exports.updateProduct = async (req, res) => {
     let product = {
       ...data,
       title: req.body.title,
+      desc: req.body.desc,
       price: req.body.price,
+      stock: req.body.stock,
       image: req.file.filename,
     };
 
@@ -170,34 +168,26 @@ exports.deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const product = await tb_product.findOne({
+    await product.destroy({
       where: {
         id,
       },
-      attributes: ["image"],
     });
 
-    // Delete image file
-    cloudinary.uploader.destroy(product.image, function (result) {
-      console.log(result);
-    });
-
-    await tb_product.destroy({
+    await productCategory.destroy({
       where: {
-        id,
+        idProduct: id,
       },
     });
 
     res.send({
-      status: "Success...",
-      message: `Deleted Product id: ${id}`,
-      data: {
-        id,
-      },
+      status: "success",
+      message: `Delete product id: ${id} finished`,
     });
   } catch (error) {
+    console.log(error);
     res.send({
-      status: "Failed",
+      status: "failed",
       message: "Server Error",
     });
   }
